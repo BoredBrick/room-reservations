@@ -32,6 +32,7 @@ public class UserRegister extends HttpServlet {
         if (existingUser != null) {
             request.getSession().setAttribute("registered",false);
             response.sendRedirect("/register/register.jsp");
+            return;
         }
 
         String encodedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
