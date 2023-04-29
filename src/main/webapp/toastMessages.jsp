@@ -15,29 +15,37 @@
         }
     </style>
 <body>
-<jsp:include page="inclue_header.html"></jsp:include>
 <%
-    request.getSession().setAttribute("registered", false);
-    Boolean registrationSuccessful = (Boolean) request.getSession().getAttribute("registered");
-    if (registrationSuccessful != null) {
-        request.getSession().removeAttribute("registered");
-        String toastId = registrationSuccessful ? "regOk" : "regFail";%>
-        <script>
-            $(document).ready(function () {
-                $('#<%=toastId%>').toast('show');
-            });
-        </script>
+    String error = (String) request.getSession().getAttribute("error");
+    if (error != null) {
+        request.getSession().removeAttribute("error");%>
+<script>
+    $(document).ready(function () {
+        $('#error').toast('show');
+    });
+</script>
+<%
+    }
+    String success = (String) request.getSession().getAttribute("success");
+    if (success != null) {
+        request.getSession().removeAttribute("success");%>
+<script>
+    $(document).ready(function () {
+        $('#success').toast('show');
+    });
+</script>
+
 <% } %>
 
-<div id="regFail" class="toast bg-danger text-white" role="alert">
+<div id="error" class="toast bg-danger text-white" role="alert">
     <div class="toast-body d-flex justify-content-center" style="padding: 1.5rem; font-size: 1.2rem;">
-        Email already registered.
+        <%=error%>
     </div>
 </div>
 
-<div id="regOk" class="toast bg-primary text-white" role="alert">
+<div id="success" class="toast bg-primary text-white" role="alert">
     <div class="toast-body d-flex justify-content-center" style="padding: 1.5rem; font-size: 1.2rem;">
-        User successfully registered.
+        <%=success%>
     </div>
 </div>
 

@@ -8,6 +8,7 @@
     <style>
         <%@include file="../styles.css" %>
     </style>
+    <jsp:include page="../inclue_header.html"></jsp:include>
     <title>Login</title>
 </head>
 <body>
@@ -19,7 +20,7 @@
             <div class="card mx-auto mt-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Login</h5>
-                    <form id="loginForm" action="userlogin" method="post">
+                    <form id="loginForm" action="../userLogin" method="post">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email">

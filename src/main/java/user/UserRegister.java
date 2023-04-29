@@ -23,14 +23,15 @@ public class UserRegister extends HttpServlet {
                 request.getParameter("password"));
 
         User existingUser;
+        UserController userController = new UserController();
         try {
-            existingUser = new UserController().getUser(user.getEmail());
+            existingUser = userController.getUser(user.getEmail());
         } catch (SQLException | NamingException e) {
             throw new RuntimeException(e);
         }
 
         if (existingUser != null) {
-            request.getSession().setAttribute("registered",false);
+            request.getSession().setAttribute("error","Email already registered.");
             response.sendRedirect("/register/register.jsp");
             return;
         }
@@ -39,8 +40,8 @@ public class UserRegister extends HttpServlet {
         user.setPassword(encodedPassword);
 
         try {
-            new UserController().insertUser(user);
-            request.getSession().setAttribute("registered",true);
+            userController.insertUser(user);
+            request.getSession().setAttribute("success","User registered successfully.");
         } catch (SQLException | NamingException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
