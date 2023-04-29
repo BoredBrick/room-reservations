@@ -14,9 +14,10 @@ public class UserLogout extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().removeAttribute("loggedInEmail");
         request.getSession().removeAttribute("loggedInUsername");
+        request.getSession().removeAttribute("loggedInIsAdmin");
         request.getSession().setAttribute("success","You've been logged out.");
         response.sendRedirect("/index.jsp");
     }

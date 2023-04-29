@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid container-padding">
     <div class="row justify-content-center">
         <div class="col-md-7">
             <h1 class="text-center mt-5 mb-4">Welcome to the Room Reservation System</h1>

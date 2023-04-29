@@ -31,13 +31,13 @@ public class UserController {
     }
 
     public int updateUser(User user) throws SQLException, NamingException {
-        String UPDATE_USER = "UPDATE users SET username = ?, email = ?, password = ?, isAdmin = ? WHERE id = ?";
+        String UPDATE_USER = "UPDATE users SET username = ?, password = ?, isAdmin = ? WHERE email = ?";
         Connection conn = DataManager.getConnection();
         PreparedStatement ps = conn.prepareStatement(UPDATE_USER);
         ps.setString(1, user.getUsername());
-        ps.setString(2, user.getEmail());
-        ps.setString(3, user.getPassword());
-        ps.setBoolean(4, user.isAdmin());
+        ps.setString(2, user.getPassword());
+        ps.setBoolean(3, user.isAdmin());
+        ps.setString(4, user.getEmail());
 
         return ps.executeUpdate();
     }
