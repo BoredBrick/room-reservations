@@ -9,12 +9,7 @@
 <html>
 <head>
     <title>Title</title>
-  <%
-    String loggedInUsername = (String) session.getAttribute("loggedInUsername");
-    if (loggedInUsername == null) {
-      response.sendRedirect("../index.jsp");
-    }
-  %>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -39,7 +34,6 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="userProfile.jsp">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="../userLogOut">Log Out</a></li>
           </ul>
