@@ -1,0 +1,18 @@
+.add-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: green;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+.add-button i {
+    font-size: 2.5rem;
+    margin-left: 2px;
+}
