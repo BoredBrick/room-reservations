@@ -38,6 +38,7 @@ public class UserLogin extends HttpServlet {
             return;
         }
 
+        request.getSession().setAttribute("loggedInId", user.getId());
         request.getSession().setAttribute("loggedInIsAdmin", user.isAdmin());
         request.getSession().setAttribute("loggedInEmail", user.getEmail());
         request.getSession().setAttribute("loggedInUsername", user.getUsername());

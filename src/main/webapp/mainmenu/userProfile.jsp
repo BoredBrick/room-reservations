@@ -20,8 +20,6 @@
         }
         String loggedInEmail = (String) session.getAttribute("loggedInEmail");
     %>
-    %>
-
 </head>
 <body>
 <div class="container-fluid">

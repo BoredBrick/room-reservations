@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Danko
-  Date: 29/04/2023
-  Time: 12:44
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -29,11 +22,14 @@
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= loggedInUsername %>
+          <a class="nav-link dropdown-toggle text-truncate" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <%= request.getSession().getAttribute("loggedInUsername") %>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="userProfile.jsp">Profile</a></li>
+            <% if ((boolean) request.getSession().getAttribute("loggedInIsAdmin")) { %>
+              <li><a class="dropdown-item" href="manageUsers.jsp">Manage users</a></li>
+            <% } %>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="../userLogOut">Log Out</a></li>
           </ul>

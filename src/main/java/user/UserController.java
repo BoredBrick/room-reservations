@@ -42,6 +42,12 @@ public class UserController {
         return ps.executeUpdate();
     }
 
+    public int updateAdminStatus(int userId) throws SQLException, NamingException {
+        User user = getUserById(userId);
+        user.setAdmin(!user.isAdmin());
+        return updateUser(user);
+    }
+
     public User getUserById(int id) throws SQLException, NamingException {
         String GET_USER = "SELECT * FROM users WHERE id = ?";
         Connection conn = DataManager.getConnection();
@@ -74,7 +80,7 @@ public class UserController {
 
     public ArrayList<User> getAllUsers() throws SQLException, NamingException {
         String SELECT_USERS = "select * from users";
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<>();
 
         Connection conn = DataManager.getConnection();
         PreparedStatement ps = conn.prepareStatement(SELECT_USERS);
@@ -84,9 +90,8 @@ public class UserController {
             int id = resultSet.getInt("id");
             String username = resultSet.getString("username");
             String email = resultSet.getString("email");
-            String password = resultSet.getString("password");
             boolean isAdmin = resultSet.getBoolean("isAdmin");
-            User user = new User(username, email, isAdmin);
+            User user = new User(id, username, email, isAdmin);
             users.add(user);
         }
         return users;
