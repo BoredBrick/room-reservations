@@ -21,6 +21,16 @@ public class Room {
         this.imagePath = imagePath;
     }
 
+    public Room(String name, int capacity, String building, boolean hasProjector, boolean hasWhiteboard, boolean hasWifi, String imagePath) {
+        this.name = name;
+        this.capacity = capacity;
+        this.building = building;
+        this.hasProjector = hasProjector;
+        this.hasWhiteboard = hasWhiteboard;
+        this.hasWifi = hasWifi;
+        this.imagePath = imagePath;
+    }
+
     public int getId() {
         return id;
     }

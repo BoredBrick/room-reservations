@@ -1,4 +1,5 @@
 package room;
+
 import helper.DataManager;
 
 import javax.naming.NamingException;
@@ -7,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 public class RoomController {
 
     public int insertRoom(Room room) throws SQLException, NamingException {
