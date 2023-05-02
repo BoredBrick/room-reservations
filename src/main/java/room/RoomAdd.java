@@ -1,5 +1,6 @@
 package room;
 
+import com.google.gson.Gson;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -35,7 +36,7 @@ public class RoomAdd extends HttpServlet {
         // Get the uploaded image file
         Part filePart = request.getPart("image");
         String fileName = "";
-        if (filePart != null) {
+        if (!filePart.getSubmittedFileName().equals("")) {
             fileName = UUID.randomUUID().toString() + "_" + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             String uploadPath = request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
             File uploadDir = new File(uploadPath);
@@ -52,7 +53,13 @@ public class RoomAdd extends HttpServlet {
 
         Room room = new Room(name, capacity, building, hasProjector, hasWhiteboard, hasWifi, fileName);
         try {
-            new RoomController().insertRoom(room);
+            int id = new RoomController().insertRoom(room);
+            room.setId(id);
+            Gson gson = new Gson();
+            String json = gson.toJson(room);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         } catch (SQLException | NamingException e) {
             throw new RuntimeException(e);
         }

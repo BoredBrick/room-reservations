@@ -15,7 +15,7 @@ public class RoomController {
         String INSERT_ROOM = "INSERT INTO rooms (name, capacity, building," +
                 " hasProjector, hasWhiteboard, hasWifi, imagePath) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection conn = DataManager.getConnection();
-        PreparedStatement ps = conn.prepareStatement(INSERT_ROOM);
+        PreparedStatement ps = conn.prepareStatement(INSERT_ROOM, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, room.getName());
         ps.setInt(2, room.getCapacity());
         ps.setString(3, room.getBuilding());
@@ -23,7 +23,13 @@ public class RoomController {
         ps.setBoolean(5, room.hasWhiteboard());
         ps.setBoolean(6, room.hasWifi());
         ps.setString(7, room.getImagePath());
-        return ps.executeUpdate();
+        ps.executeUpdate();
+        ResultSet resultSet = ps.getGeneratedKeys();
+        int generatedId = 0;
+        if (resultSet.next()) {
+            generatedId = resultSet.getInt(1);
+        }
+        return generatedId;
     }
 
     public int updateRoom(Room room) throws SQLException, NamingException {
@@ -48,6 +54,18 @@ public class RoomController {
         PreparedStatement ps = conn.prepareStatement(GET_ROOM);
         ps.setInt(1, id);
         return getRoom(ps);
+    }
+
+    public int deleteRoomById(int id) {
+        String DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
+        try {
+            Connection conn = DataManager.getConnection();
+            PreparedStatement ps = conn.prepareStatement(DELETE_ROOM);
+            ps.setInt(1, id);
+            return ps.executeUpdate();
+        } catch (SQLException | NamingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Room getRoom(PreparedStatement ps) throws SQLException {

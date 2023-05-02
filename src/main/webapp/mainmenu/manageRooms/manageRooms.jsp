@@ -18,13 +18,13 @@
     <script src="manageRooms.js"></script>
 </head>
 <body>
-<button class="add-button" data-bs-toggle="modal" data-bs-target="#add-room-modal">
-    <i class="fas fa-plus"></i>
-</button>
 
-<div id="room-cards-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"></div>
 
-<div class="modal fade" id="edit-room-modal" tabindex="-1" aria-labelledby="edit-room-modal-label" aria-hidden="true">
+<div id="room-cards-container" class="justify-content-center"></div>
+
+
+<div class="modal fade" id="edit-room-modal" tabindex="-1" aria-labelledby="edit-room-modal-label"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,14 +68,31 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="edit-room-form" data-bs-dismiss="modal">Save
-                    Changes
-                </button>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-danger w-100" id="clear-edit-form-btn"
+                                onclick="clearEditRoomForm()">Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary w-100" data-dismiss="modal">Add Room
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<button class="add-button" data-bs-toggle="modal" data-bs-target="#add-room-modal">
+    <i class="fas fa-plus"></i>
+</button>
 
 <div class="modal fade" id="add-room-modal" tabindex="-1" aria-labelledby="add-room-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -92,7 +109,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="room-capacity" class="form-label">Capacity</label>
-                        <input type="number" class="form-control" id="room-capacity" name="capacity" min="1" value="1"
+                        <input type="number" class="form-control" id="room-capacity" name="capacity" min="1"
+                               value="1"
                                required>
                     </div>
                     <div class="mb-3">
@@ -100,11 +118,13 @@
                         <input type="text" class="form-control" id="room-building" name="building" required>
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="room-has-projector" name="has_projector">
+                        <input type="checkbox" class="form-check-input" id="room-has-projector"
+                               name="has_projector">
                         <label class="form-check-label" for="room-has-projector">Has Projector</label>
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="room-has-whiteboard" name="has_whiteboard">
+                        <input type="checkbox" class="form-check-input" id="room-has-whiteboard"
+                               name="has_whiteboard">
                         <label class="form-check-label" for="room-has-whiteboard">Has Whiteboard</label>
                     </div>
                     <div class="mb-3 form-check">
@@ -116,8 +136,23 @@
                         <input type="file" class="form-control" id="room-image" accept="image/*" name="image">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Add Room</button>
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-outline-danger w-100" id="clear-form-btn"
+                                        onclick="clearAddRoomForm()">Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary w-100" data-dismiss="modal">Add Room
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
