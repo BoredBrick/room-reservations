@@ -15,9 +15,6 @@
     <script src="userProfile.js"></script>
     <%
         String loggedInUsername = (String) session.getAttribute("loggedInUsername");
-        if (loggedInUsername == null) {
-            response.sendRedirect("../index.jsp");
-        }
         String loggedInEmail = (String) session.getAttribute("loggedInEmail");
     %>
 </head>

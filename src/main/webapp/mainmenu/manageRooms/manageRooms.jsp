@@ -27,12 +27,13 @@
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="edit-room-modal-label">Edit Room Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="edit-room-form">
+            <form id="edit-room-form">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit-room-modal-label">Edit Room Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <input type="hidden" id="edit-room-id" name="id">
                     <div class="mb-3">
                         <label for="edit-room-name" class="form-label">Name</label>
@@ -65,27 +66,27 @@
                         <label for="edit-room-image" class="form-label">Image</label>
                         <input type="file" class="form-control" id="edit-room-image" accept="image/*" name="image">
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel
-                        </button>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-danger w-100" id="clear-edit-form-btn"
+                                    onclick="clearEditRoomForm()">Clear
+                            </button>
+                        </div>
                     </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-outline-danger w-100" id="clear-edit-form-btn"
-                                onclick="clearEditRoomForm()">Clear
-                        </button>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary w-100 edit-btn-send" data-dismiss="modal">Edit Room
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary w-100" data-dismiss="modal">Add Room
-                        </button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

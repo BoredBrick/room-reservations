@@ -46,7 +46,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (User user : users) { %>
+                    <% for (User user : users) {
+                        if (user.getEmail().equals(request.getSession().getAttribute("loggedInEmail"))) {
+                            continue;
+                        }
+                    %>
                     <tr>
                         <td><%= user.getUsername() %></td>
                         <td><%= user.getEmail() %></td>
