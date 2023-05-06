@@ -8,7 +8,7 @@ $(document).ready(function () {
         const capacity = $('<p class="card-text"></p>').html(`<i class="fas fa-user"></i> ${room.capacity} ${room.capacity === 1 ? 'person' : 'people'}`);
         const building = $('<p class="card-text"></p>').html(`<i class="fas fa-building"></i> ${room.building}`);
         const features = $('<p class="card-text"></p>').html(`<i class="fas fa-wifi"></i> <span class="wifi-availability">${room.hasWifi ? 'Yes' : 'No'}</span> <i class="fa-solid fa-video"></i> <span class="projector-availability">${room.hasProjector ? 'Yes' : 'No'}</span> <i class="fa-solid fa-chalkboard-user"></i> <span class="whiteboard-availability">${room.hasWhiteboard ? 'Yes' : 'No'}</span>`);
-        const reserveBtn = $(`<button type="button" data-roomid="${room.id}" data-bs-toggle="modal" data-bs-target="#reserve-room-modal" class="btn btn-success reserve-btn">RESERVE</button>`);
+        const reserveBtn = $(`<button type="button" data-roomid="${room.id}"  class="btn btn-success reserve-btn">RESERVE</button>`);
         reserveBtn.data('room', JSON.stringify(room));
 
         cardInner.append(
@@ -43,6 +43,64 @@ $(document).ready(function () {
         }
     });
 
+
+    $(document).on('click', '.reserve-btn', function() {
+        var roomId = $(this).data('roomid');
+        $('#room-reservation-modal').modal('show');
+        $('#room-reservation-modal-title').html('Reservations for Room ' + roomId);
+
+        $.ajax({
+            url: '/ReservationListByRoomId',
+            type: 'POST',
+            data: { roomId: roomId },
+            success: function(reservations) {
+                var reservationsList = '';
+                for (var i = 0; i < reservations.length; i++) {
+                    reservationsList += '<li>' + reservations[i].start_time + ' - ' + reservations[i].end_time + ' on ' + reservations[i].date + '</li>';
+                }
+                $('#reservations-list').html(reservationsList);
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+
+        console.log("HALOOO")
+        $('#reservation-date').attr('min', getCurrentDate());
+        $('#reservation-date').val(getCurrentDate());
+
+        $('#reservation-start-time, #reservation-end-time').datetimepicker({
+            format: 'LT'
+        });
+    });
+
+    $('#room-reservation-form').submit(function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url: '/reservationAdd',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log('Reservation added successfully');
+                $('#room-reservation-modal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+
 });
 
-
+function getCurrentDate() {
+    var today = new Date();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var year = today.getFullYear();
+    if (month < 10) month = '0' + month;
+    if (day < 10) day = '0' + day;
+    return year + '-' + month + '-' + day;
+}

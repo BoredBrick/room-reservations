@@ -7,6 +7,9 @@
 <%
   String loggedInUsername = (String) session.getAttribute("loggedInUsername");
   Boolean isAdmin = (Boolean) session.getAttribute("loggedInIsAdmin");
+  if (isAdmin == null) {
+    isAdmin = false;
+  }
   if (loggedInUsername == null) {
     response.sendRedirect("../index.jsp");
   }

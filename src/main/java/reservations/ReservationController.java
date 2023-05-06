@@ -11,7 +11,7 @@ import javax.naming.NamingException;
 public class ReservationController {
     private static final String INSERT_RESERVATION = "INSERT INTO room_reservations (user_id, room_id, start_time, end_time) VALUES (?, ?, ?, ?)";
     private static final String DELETE_RESERVATION = "DELETE FROM room_reservations WHERE reservation_id = ?";
-    private static final String GET_ALL_RESERVATIONS = "SELECT * FROM room_reservations";
+    private static final String GET_ALL_ROOM_RESERVATIONS = "SELECT * FROM room_reservations where room_id = ?";
     private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT * FROM room_reservations WHERE user_id = ?";
 
     public int insertReservation(Reservation reservation) throws SQLException, NamingException {
@@ -37,10 +37,11 @@ public class ReservationController {
         ps.executeUpdate();
     }
 
-    public ArrayList<Reservation> getAllReservations() throws SQLException, NamingException {
+    public ArrayList<Reservation> getAllRoomReservations(int roomIdToFind) throws SQLException, NamingException {
         Connection conn = DataManager.getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(GET_ALL_RESERVATIONS);
+        PreparedStatement ps = conn.prepareStatement(GET_ALL_ROOM_RESERVATIONS);
+        ps.setInt(1, roomIdToFind);
+        ResultSet rs = ps.executeQuery();
         ArrayList<Reservation> reservations = new ArrayList<>();
         while (rs.next()) {
             int reservationId = rs.getInt("reservation_id");

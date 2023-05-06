@@ -46,6 +46,9 @@ $(document).ready(function () {
 
     $('#add-room-form').submit(function (event) {
         event.preventDefault();
+        if (!$("#add-room-form").valid()) {
+            return false;
+        }
         var formData = new FormData(this);
         $.ajax({
             url: '/roomAdd',
@@ -57,6 +60,7 @@ $(document).ready(function () {
                 var newRoom = response;
                 var newCard = generateRoomCard(newRoom);
                 $('#cards-row').append(newCard);
+                clearAddRoomForm();
                 $('#add-room-modal').modal('hide');
             },
             error: function (xhr, status, error) {
