@@ -8,9 +8,18 @@
     <jsp:include page="../../inclue_header.html"></jsp:include>
     <jsp:include page="../../ajaxToastMessages.jsp"></jsp:include>
     <jsp:include page="../navbar.jsp"></jsp:include>
+    <style>
+        <%@include file="myReservations.css" %>
+    </style>
+    <script src="myReservations.js"></script>
     <title>My reservations</title>
 </head>
 <body>
+<div class="container mt-4">
+    <h1 class="mb-4">My Reservations</h1>
+    <div id="reservations"></div>
+</div>
+
 
 </body>
 </html>

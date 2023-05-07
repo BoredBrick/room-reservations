@@ -22,7 +22,7 @@ public class ReservationListById extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Reservation> reservations = null;
         try {
-            reservations = new ReservationController().getReservationsByUserId(Integer.parseInt(request.getParameter("user_id")));
+            reservations = new ReservationController().getReservationsByUserId((int) request.getSession().getAttribute("loggedInId"));
         } catch (SQLException | NamingException e) {
             throw new RuntimeException(e);
         }

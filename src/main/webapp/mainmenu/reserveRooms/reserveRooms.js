@@ -62,16 +62,10 @@ $(document).ready(function () {
                 reservationList.empty();
                 for (var i = 0; i < reservations.length; i++) {
                     var reservation = reservations[i];
-                    var startTime = new Date(reservation.startTime);
+
                     var endTime = new Date(reservation.endTime);
-                    var startTimeString = startTime.toLocaleDateString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    var endTimeString = endTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                    var startTimeString = moment(reservation.startTime).format("DD.MM.YYYY HH:mm")
+                    var endTimeString = moment(reservation.endTime).format("HH:mm")
                     var listItem = $('<li></li>').text(startTimeString + ' - ' + endTimeString);
                     reservationList.append(listItem);
                 }
