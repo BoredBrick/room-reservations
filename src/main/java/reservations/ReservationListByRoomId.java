@@ -22,7 +22,8 @@ public class ReservationListByRoomId extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Reservation> reservations = null;
         try {
-            reservations = new ReservationController().getAllRoomReservations(Integer.parseInt(request.getParameter("room_id")));
+            var v = request.getParameter("roomId");
+            reservations = new ReservationController().getAllRoomReservations(Integer.parseInt(request.getParameter("roomId")));
         } catch (SQLException | NamingException e) {
             throw new RuntimeException(e);
         }

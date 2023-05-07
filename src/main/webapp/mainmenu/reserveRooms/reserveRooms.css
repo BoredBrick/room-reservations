@@ -56,3 +56,7 @@
     background-color: darkgreen;
     border-color: darkgreen;
 }
+
+#current-reservations {
+    margin-top: 20px;
+}

@@ -43,64 +43,143 @@ $(document).ready(function () {
         }
     });
 
-
-    $(document).on('click', '.reserve-btn', function() {
+    $(document).on('click', '.reserve-btn', function () {
         var roomId = $(this).data('roomid');
         $('#room-reservation-modal').modal('show');
-        $('#room-reservation-modal-title').html('Reservations for Room ' + roomId);
-
+        document.getElementById('reserve-roomId').value = roomId;
+        setDefaultDateTime();
+        var reservationsData = [];
         $.ajax({
+            type: 'GET',
             url: '/ReservationListByRoomId',
-            type: 'POST',
-            data: { roomId: roomId },
-            success: function(reservations) {
-                var reservationsList = '';
+            data: {roomId: roomId},
+            success: function (reservations) {
+                reservationsData = reservations
+                reservations.sort(function (a, b) {
+                    return new Date(a.startTime) - new Date(b.startTime);
+                });
+                var reservationList = $('#reservation-list');
+                reservationList.empty();
                 for (var i = 0; i < reservations.length; i++) {
-                    reservationsList += '<li>' + reservations[i].start_time + ' - ' + reservations[i].end_time + ' on ' + reservations[i].date + '</li>';
+                    var reservation = reservations[i];
+                    var startTime = new Date(reservation.startTime);
+                    var endTime = new Date(reservation.endTime);
+                    var startTimeString = startTime.toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    var endTimeString = endTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+                    var listItem = $('<li></li>').text(startTimeString + ' - ' + endTimeString);
+                    reservationList.append(listItem);
                 }
-                $('#reservations-list').html(reservationsList);
+
+                $('#reserve-form').validate({
+                    rules: {
+                        'reserve-datetime': {
+                            required: true,
+                            datetimeFuture: true,
+                            reservationCollision: {
+                                reservations: reservationsData
+                            }
+                        },
+                        'reserve-duration': {
+                            required: true,
+                            digits: true,
+                            range: [5, 120],
+                            reservationCollision: {
+                                reservations: reservationsData
+                            }
+                        }
+                    },
+                    messages: {
+                        'reserve-datetime': {
+                            required: 'Please select a date and time',
+                            datetimeFuture: 'Please select a future date and time',
+                            reservationCollision: 'This time slot is already reserved'
+                        },
+                        'reserve-duration': {
+                            required: 'Please enter the duration of your reservation',
+                            digits: 'Please enter a valid duration in minutes',
+                            range: 'Please enter a duration between 5 and 120 minutes',
+                            reservationCollision: 'This reservation would overlap with an existing reservation'
+                        }
+                    }
+                });
+
             },
-            error: function(xhr, status, error) {
-                console.log('Error:', error);
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
             }
         });
 
-        console.log("HALOOO")
-        $('#reservation-date').attr('min', getCurrentDate());
-        $('#reservation-date').val(getCurrentDate());
+        $.validator.addMethod('datetimeFuture', function (value, element) {
+            var selectedDateTime = new Date(value);
+            var currentDateTime = new Date();
+            return this.optional(element) || selectedDateTime > currentDateTime;
+        }, 'Your reservation date and time must be in the future');
 
-        $('#reservation-start-time, #reservation-end-time').datetimepicker({
-            format: 'LT'
+        $.validator.addMethod('reservationCollision', function (value, element, options) {
+            var selectedDateTime = new Date(value);
+            var duration = parseInt($('#reserve-duration').val(), 10);
+            var reservations = options.reservations
+            for (var i = 0; i < reservations.length; i++) {
+                var reservation = reservations[i];
+                var startTime = new Date(reservation.startTime);
+                var endTime = new Date(reservation.endTime);
+                var selectedDateTimeEnd = new Date(selectedDateTime.getTime() + duration * 60000);
+                if ((selectedDateTime >= startTime && selectedDateTime <= endTime) || (selectedDateTimeEnd >= startTime && selectedDateTimeEnd <= endTime)) {
+                    return false;
+                }
+            }
+            return true;
         });
     });
 
-    $('#room-reservation-form').submit(function(event) {
+    $('#reserve-form').submit(function (event) {
+        if (!$("#reserve-form").valid()) {
+            return false;
+        }
         event.preventDefault();
-        var formData = new FormData(this);
+        var form = $(this);
+        var formData = form.serialize();
         $.ajax({
-            url: '/reservationAdd',
             type: 'POST',
+            url: '/ReservationAdd',
             data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                console.log('Reservation added successfully');
+            success: function () {
                 $('#room-reservation-modal').modal('hide');
+                showModal('success', 'Reservation successfully added!')
+                form.trigger('reset');
             },
-            error: function(xhr, status, error) {
-                console.log('Error:', error);
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
             }
         });
     });
-
 });
 
-function getCurrentDate() {
-    var today = new Date();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-    var year = today.getFullYear();
-    if (month < 10) month = '0' + month;
-    if (day < 10) day = '0' + day;
-    return year + '-' + month + '-' + day;
+function setDefaultDateTime() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+
+    var datetimeString = year + '-' + pad(month, 2) + '-' + pad(day, 2) + 'T' + pad(hour, 2) + ':' + pad(minute, 2);
+    document.getElementById('reserve-datetime').value = datetimeString;
+
+    var maxDate = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+    document.getElementById('reserve-datetime').setAttribute('min', new Date().toISOString().slice(0, -8))
+    document.getElementById('reserve-datetime').setAttribute('max', maxDate.toISOString().slice(0, -8))
+
+}
+
+function pad(num, size) {
+    var s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
 }

@@ -21,34 +21,37 @@
 <body>
 <div id="room-cards-container" class="justify-content-center"></div>
 
-<div class="modal fade" id="reservation-modal" tabindex="-1" aria-labelledby="reservation-modal-label"
-     aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="room-reservation-modal" tabindex="-1" aria-labelledby="room-reservation-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reservation-modal-label">Make a reservation</h5>
+                <h5 class="modal-title" id="room-reservation-modal-label">Room Reservation</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <ul id="reservation-list"></ul>
-                <form id="reservation-form">
+                <form id="reserve-form">
                     <div class="mb-3">
-                        <label for="reservation-date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="reservation-date" name="date" required>
+                        <label for="reserve-datetime" class="form-label">Date and Time</label>
+                        <input type="datetime-local" class="form-control" id="reserve-datetime" name="reserve-datetime" required>
                     </div>
                     <div class="mb-3">
-                        <label for="from-time" class="form-label">From</label>
-                        <input type="time" class="form-control" id="from-time" name="from_time" required>
+                        <label for="reserve-duration" class="form-label">Duration</label>
+                        <input type="number" class="form-control" id="reserve-duration" value="5" name="reserve-duration" min="5" max="120" step="5" required>
+                        <label for="reserve-duration">minutes</label>
                     </div>
-                    <div class="mb-3">
-                        <label for="to-time" class="form-label">To</label>
-                        <input type="time" class="form-control" id="to-time" name="to_time" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Make Reservation</button>
+                    <input type="hidden" id="reserve-roomId" name="roomId" value="">
+                    <button type="submit" class="btn btn-primary">Reserve</button>
                 </form>
+                <div id="current-reservations">
+                    <h5>Current Reservations:</h5>
+                    <ul id="reservation-list">
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 </body>
 </html>

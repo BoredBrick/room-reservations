@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @WebServlet(name = "ReservationAdd", value = "/ReservationAdd")
@@ -21,16 +22,22 @@ public class ReservationAdd extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("user_id"));
-        int roomId = Integer.parseInt(request.getParameter("room_id"));
+        int userId = (int) request.getSession().getAttribute("loggedInId");
+        int roomId = Integer.parseInt(request.getParameter("roomId"));
         Date startTime = null;
         Date endTime = null;
+        int duration = Integer.parseInt(request.getParameter("reserve-duration"));
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
         try {
-            startTime = format.parse(request.getParameter("startTime"));
-            endTime = format.parse(request.getParameter("endTime"));
+            startTime = format.parse(request.getParameter("reserve-datetime"));
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startTime);
+            calendar.add(Calendar.MINUTE, duration);
+            endTime = calendar.getTime();
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
