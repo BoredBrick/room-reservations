@@ -9,6 +9,7 @@
         <%@include file="reserveRooms.css" %>
     </style>
     <jsp:include page="../../inclue_header.html"></jsp:include>
+    <jsp:include page="../../toastMessages.jsp"></jsp:include>
     <jsp:include page="../../ajaxToastMessages.jsp"></jsp:include>
     <jsp:include page="../navbar.jsp"></jsp:include>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

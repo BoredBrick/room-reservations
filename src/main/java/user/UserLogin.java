@@ -43,6 +43,6 @@ public class UserLogin extends HttpServlet {
         request.getSession().setAttribute("loggedInUsername", user.getUsername());
         request.getSession().setAttribute("success","Welcome, " + user.getUsername());
 
-        response.sendRedirect("../webapp/mainmenu/reserveRooms/reserveRooms.jsp");
+        response.sendRedirect("mainmenu/reserveRooms/reserveRooms.jsp");
     }
 }
