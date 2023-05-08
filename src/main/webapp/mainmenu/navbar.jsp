@@ -43,7 +43,7 @@
               <li><a class="dropdown-item" href="/mainmenu/manageUsers.jsp">Manage users</a></li>
             <% } %>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="../userLogOut">Log Out</a></li>
+            <li><a class="dropdown-item" href="/userLogOut">Log Out</a></li>
           </ul>
         </li>
       </ul>

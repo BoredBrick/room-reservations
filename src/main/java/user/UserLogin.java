@@ -1,6 +1,5 @@
 package user;
 
-import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -44,6 +43,6 @@ public class UserLogin extends HttpServlet {
         request.getSession().setAttribute("loggedInUsername", user.getUsername());
         request.getSession().setAttribute("success","Welcome, " + user.getUsername());
 
-        response.sendRedirect("../mainmenu/mainmenu.jsp");
+        response.sendRedirect("../webapp/mainmenu/reserveRooms/reserveRooms.jsp");
     }
 }
