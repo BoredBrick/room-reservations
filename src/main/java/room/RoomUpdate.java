@@ -27,6 +27,12 @@ public class RoomUpdate extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Room room;
+        try {
+            room = new RoomController().getRoomById(Integer.parseInt(request.getParameter("id")));
+        } catch (SQLException | NamingException e) {
+            throw new RuntimeException(e);
+        }
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         int capacity = Integer.parseInt(request.getParameter("capacity"));
@@ -38,9 +44,15 @@ public class RoomUpdate extends HttpServlet {
         Part filePart = request.getPart("image");
         String fileName = "";
         if (!filePart.getSubmittedFileName().equals("")) {
-            fileName = UUID.randomUUID().toString() + "_" + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             String uploadPath = request.getServletContext().getRealPath("") + File.separator + UPLOAD_DIRECTORY;
+            File imageFile = new File(uploadPath + File.separator + room.getImagePath());
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+
+            fileName = UUID.randomUUID().toString() + "_" + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             File uploadDir = new File(uploadPath);
+
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
@@ -52,12 +64,12 @@ public class RoomUpdate extends HttpServlet {
             }
         }
 
-        Room room = new Room(id, name, capacity, building, hasProjector, hasWhiteboard, hasWifi, fileName);
+        Room newRoom = new Room(id, name, capacity, building, hasProjector, hasWhiteboard, hasWifi, fileName);
         try {
-            new RoomController().updateRoom(room);
-            room.setId(id);
+            new RoomController().updateRoom(newRoom);
+            newRoom.setId(id);
             Gson gson = new Gson();
-            String json = gson.toJson(room);
+            String json = gson.toJson(newRoom);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);

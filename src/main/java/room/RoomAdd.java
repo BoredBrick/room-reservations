@@ -18,12 +18,13 @@ import java.util.UUID;
 @MultipartConfig
 @WebServlet(name = "RoomAdd", value = "/roomAdd")
 public class RoomAdd extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 
-    private static final String UPLOAD_DIRECTORY = "uploads";
+    public static final String UPLOAD_DIRECTORY = "uploads";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");

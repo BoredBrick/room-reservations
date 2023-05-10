@@ -65,6 +65,8 @@ public class RoomController {
             return ps.executeUpdate();
         } catch (SQLException | NamingException e) {
             throw new RuntimeException(e);
+
+
         }
     }
 
