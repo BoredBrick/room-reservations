@@ -14,6 +14,14 @@
     <script src="myReservations.js"></script>
     <title>My reservations</title>
 </head>
+<%
+    String loggedInUsername = (String) session.getAttribute("loggedInUsername");
+    if (loggedInUsername == null) {
+        String redirectUrl = "../../index.jsp";
+        response.sendRedirect(redirectUrl);
+        return;
+    }
+%>
 <body>
 <div class="container mt-4">
     <h1 class="mb-4">My Reservations</h1>

@@ -17,6 +17,14 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <title>Reserve a room</title>
     <script src="reserveRooms.js"></script>
+    <%
+        String loggedInUsername = (String) session.getAttribute("loggedInUsername");
+        if (loggedInUsername == null) {
+            String redirectUrl = "../../index.jsp";
+            response.sendRedirect(redirectUrl);
+            return;
+        }
+    %>
 
 </head>
 <body>

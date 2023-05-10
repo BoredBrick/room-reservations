@@ -10,10 +10,13 @@
   if (isAdmin == null) {
     isAdmin = false;
   }
-  if (loggedInUsername == null) {
-    response.sendRedirect("../index.jsp");
+  if (loggedInUsername == null || loggedInUsername.trim().isEmpty()) {
+    String redirectUrl = "/index.jsp";
+    response.sendRedirect(redirectUrl);
+    return;
   }
 %>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">

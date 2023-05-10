@@ -21,6 +21,14 @@
 </head>
 <body>
 <%
+    String loggedInUsername = (String) session.getAttribute("loggedInUsername");
+    if (loggedInUsername == null) {
+        String redirectUrl = "../../index.jsp";
+        response.sendRedirect(redirectUrl);
+        return;
+    }
+
+
     ArrayList<User> users = null;
     try {
         users = new UserController().getAllUsers();
@@ -52,8 +60,10 @@
                         }
                     %>
                     <tr>
-                        <td><%= user.getUsername() %></td>
-                        <td><%= user.getEmail() %></td>
+                        <td><%= user.getUsername() %>
+                        </td>
+                        <td><%= user.getEmail() %>
+                        </td>
                         <td>
                             <button type="button"
                                     class="btn btn-sm admin-toggle <%= user.isAdmin() ? "btn-success" : "btn-secondary" %> update-admin-status"

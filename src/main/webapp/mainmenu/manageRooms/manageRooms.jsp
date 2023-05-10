@@ -19,7 +19,14 @@
 </head>
 <body>
 
-
+<%
+    String loggedInUsername = (String) session.getAttribute("loggedInUsername");
+    if (loggedInUsername == null) {
+        String redirectUrl = "../../index.jsp";
+        response.sendRedirect(redirectUrl);
+        return;
+    }
+%>
 <div id="room-cards-container" class="justify-content-center"></div>
 
 
